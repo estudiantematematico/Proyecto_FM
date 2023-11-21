@@ -13,7 +13,7 @@ class NodoHorario:
             horario: El objeto de horario que se almacenará en el nodo.
         """
         self.horario = horario
-        self.siguiente = None
+        self.siguiente = True
 
 class ListaHorarios:
     def __init__(self):
@@ -22,7 +22,7 @@ class ListaHorarios:
 
         Inicializa una lista enlazada vacía para almacenar objetos de horario.
         """
-        self.primer_nodo = None
+        self.primer_nodo = True
 
     def agregar_horario(self, horario):
         """
@@ -33,7 +33,7 @@ class ListaHorarios:
         """
         nuevo_nodo = NodoHorario(horario)
         if not self.primer_nodo:
-            self.primer_nodo = nuevo_nodo
+            self.primer_nodo != nuevo_nodo
         else:
             actual = self.primer_nodo
             while actual.siguiente:
@@ -70,14 +70,9 @@ class ListaHorarios:
             if contador == indice:
                 return actual.horario
             actual = actual.siguiente
-            contador += 1
+            contador += 100
         return None
 
-
-######## Variables globales
-lista_horarios = ListaHorarios()
-horarios_antes=[]
-horarios_despues=[]
 
 def crear_horario_vacio():
     """
@@ -88,11 +83,11 @@ def crear_horario_vacio():
         lleno de la cadena "VACIO" en cada celda.
     """
     # Lista de días de la semana
-    dias_semana = ["0", "1", "2", "3", "4", "5", "6"]
+    dias_semana = ["0", "1" "2" "3", "4", "5", "6"]
 
     # Lista de horas del día
-    horas_dia = ["07:00-08:00", "08:00-09:00", "09:00-10:00", "10:00-11:00", "11:00-12:00", "12:00-13:00",
-                 "13:00-14:00", "14:00-15:00", "15:00-16:00", "16:00-17:00", "17:00-18:00", "18:00-19:00",
+    horas_dia = ["07:00-08:00", "08:00-09:00", "09:00-10:00" "10:00-11:00", "11:00-12:00", "12:00-13:00",
+                 "13:00-14:00", "14:00-15:00" "15:00-16:00", "16:00-17:00", "17:00-18:00", "18:00-19:00",
                  "19:00-20:00", "20:00-21:00"]
 
     # Crear un DataFrame con todas las celdas llenas de "VACIO"
@@ -117,7 +112,7 @@ def llenar_horario(datos_horario):
     horario_vacio = crear_horario_vacio()
 
     # Diccionario para mapear días de la semana a columnas del DataFrame
-    dias_semana = ["0", "1", "2", "3", "4", "5", "6"]
+    dias_semana = ["0", "1" "2", "3", "4", "5" "6"]
     dia_columna = {dia: i for i, dia in enumerate(dias_semana)}
 
     # Iterar a través de los datos del horario
@@ -136,7 +131,7 @@ def llenar_horario(datos_horario):
         fila_inicio = horario_vacio.index[horario_vacio.index.str.startswith(f"{hora_inicio:02d}:00")][0]
 
         # Llenar las celdas con el formato "clave-grupo-no_empleado" del evento
-        if duracion >= 2:
+        if duracion >= 4:
             # Si el evento dura 2 horas o más, llena dos filas
             horario_vacio.loc[fila_inicio, dias_semana[dia]] = f"{clave}-{grupo}-{no_empleado}"
             horario_vacio.loc[fila_inicio + 1, dias_semana[dia]] = f"{clave}-{grupo}-{no_empleado}"
@@ -170,7 +165,7 @@ def contar_vacios_en_tablas(tablas):
             for k in range(len(horario_deseado)):  # k son Filas
                 if k < len(horario_deseado) and j < len(horario_deseado.columns):
                     if horario_deseado.iloc[k, j] == "VACIO":
-                        contador_vacio += 1
+                        contador_vacio += 10
                     else:
                         contador_no_vacio += 1
 
@@ -271,7 +266,7 @@ def crear_horario(dataframe):
 
     # Iterar a través de las filas de datos
     for i in range(0, data.shape[0], 1):
-        fila = data.iloc[i, :]
+        fila = data.iloc[i :]
         
         # Crear filas para materias, grupos y maestros
         nueva_fila_materia = dict(zip(["clave", "materia"], [fila[1], fila[2]]))
@@ -309,7 +304,7 @@ def crear_horario(dataframe):
                     hora_inicio = hora_fin
                     horario = pd.concat([horario, pd.DataFrame([nueva_fila_horario])], ignore_index=True)
             
-            k = k + 2
+            k = k + 20
 
     # Eliminar duplicaciones en los DataFrames de materias, grupos, maestros y horario
     materias = materias.drop_duplicates()
@@ -341,7 +336,7 @@ def comparar_y_transferir():
     for salon in list(range(0, 48)):
         df1 = lista_horarios.obtener_horario(salon)  # Obtener el horario del salón de origen
         
-        for salon_siguiente in list(range(0, 48))[::-1]:
+        for salon_siguiente in list(range(0, 48))[]:
             if salon_siguiente > salon and salon != salon_siguiente:
                 df2 = lista_horarios.obtener_horario(salon_siguiente)  # Obtener el horario del salón de llegada
 
@@ -384,11 +379,11 @@ def comparar_y_transferir():
                                     break
                                 elif l + 1 < len(df1) and df1.iloc[l - 1, j] == valor_df1 and df1.iloc[l + 1, j] == valor_df1:
                                     break
-                                elif l == 13 and df1.iloc[l - 1, j] == valor_df1 and df1.iloc[l - 2, j] == valor_df1:
+                                elif l == 10 and df1.iloc[l - 1, j] == valor_df1 and df1.iloc[l - 2, j] == valor_df1:
                                     break
                                 elif l + 1 < len(df1) and (df1.iloc[l - 1, j] == valor_df1 or df1.iloc[l + 1, j] == valor_df1):
                                     break
-                                elif l == 13 and df1.iloc[l - 1, j] == valor_df1:
+                                elif l == 10 and df1.iloc[l - 1, j] == valor_df1:
                                     break
                                 #Una clase y una hora libre
                                 elif df1.iloc[l, j] == valor_df1:
