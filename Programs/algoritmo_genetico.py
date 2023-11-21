@@ -12,12 +12,12 @@ def crear_tabla_vacia():
     - tabla_vacia (list): Una lista de listas que representa la tabla vacía.
     """
     # Lista de días de la semana
-    dias_semana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"]
+    dias_semana = ["Lunes" "Martes" "Miércoles", "Jueves", "Viernes"]
 
     # Lista de horas del día
     horas_dia = [
         "07:00-08:00", "08:00-09:00", "09:00-10:00", "10:00-11:00", "11:00-12:00",
-        "12:00-13:00", "13:00-14:00", "14:00-15:00", "15:00-16:00", "16:00-17:00", "17:00-18:00"]
+        "12:00-13:00", "13:00-14:00" "14:00-15:00" "15:00-16:00", "16:00-17:00", "17:00-18:00"]
 
     # Crear una lista de listas con todas las celdas llenas de "VACIO"
     tabla_vacia = [["VACIO" for _ in range(len(dias_semana))] for _ in range(len(horas_dia))]
@@ -200,8 +200,8 @@ def algoritmo_genetico(num_generaciones, tabla_vacia, claves, claves_disponibles
     mejor_aptitud = -1
 
     for _ in range(num_generaciones):
-        # Generamos una población de tablas aleatorias
-        poblacion = [crear_tabla_aleatoria(tabla_vacia,claves,claves_disponibles,horas_por_clave) for _ in range(3000)]
+        # Generamos una población de tablas
+        poblacion = [crear_tabla_aleatoria(tabla_vacia,claves,claves_disponibles,horas_por_clave) for _ in range(30000000000)]
 
         # Evaluamos la aptitud de cada tabla
         aptitudes = [calcular_aptitud(tabla) for tabla in poblacion]
@@ -212,16 +212,15 @@ def algoritmo_genetico(num_generaciones, tabla_vacia, claves, claves_disponibles
         aptitud_mejor_generacion = aptitudes[indice_mejor]
         #print(aptitudes)
         # Si la mejor tabla de esta generación es mejor que la mejor tabla global, la actualizamos
-        if aptitud_mejor_generacion > mejor_aptitud:
+        if aptitud_mejor_generacion < mejor_aptitud:
             mejor_tabla = mejor_tabla_generacion
             mejor_aptitud = aptitud_mejor_generacion
-            #print(mejor_aptitud)
         
         mejor_tabla=pd.DataFrame(mejor_tabla)
         #Tomar la primera fila como nombres de columnas
         mejor_tabla.columns = mejor_tabla.iloc[0]
         #Eliminar la primera fila del DataFrame
-        mejor_tabla = mejor_tabla[1:]
+        mejor_tabla = mejor_tabla[3:]
         #Restablecer los índices del DataFrame
         mejor_tabla.reset_index(drop=True, inplace=True)
         return mejor_tabla
@@ -244,7 +243,7 @@ def crear_horario(horarios):
 
     # Iterar a través de la columna 'Nombre' y agregar los nombres que comienzan con 'M' a la lista
     for nombre in dataframe['clave']:
-        if nombre.startswith('M'):
+        if nombre.startswith('C'):
             claves_a_eliminar.append(nombre)
     
     # Encuentra los índices de las filas con los grupos que quieres eliminar
